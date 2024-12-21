@@ -1,6 +1,6 @@
 use crate::shared_types::{Byte, Word};
 
-use super::status_register::StatusRegister;
+use super::status_register::status_register::StatusRegister;
 
 // LE
 pub struct CPU {
@@ -23,5 +23,19 @@ impl CPU {
             y_reg: 0,
             status_reg: StatusRegister::new(),
         }
+    }
+
+    pub fn reset(&mut self) {
+        // PC is read from the address provided in 16-bit system RES vector at $FFFC
+        self.program_counter = 0xFFFC;
+
+        // Stack 8 bit range 0x0100 - 0x01FF
+        self.stack_ptr = 0x0000;
+
+        self.status_reg.clear();
+
+        self.acc = 0b00000000;
+        self.x_reg = 0b00000000;
+        self.y_reg = 0b00000000;
     }
 }
