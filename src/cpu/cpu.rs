@@ -1,4 +1,7 @@
-use crate::shared_types::{Byte, Word};
+use crate::{
+    memory::memory::Memory,
+    shared_types::{Byte, Word},
+};
 
 use super::status_register::status_register::StatusRegister;
 
@@ -11,6 +14,8 @@ pub struct CPU {
     y_reg: Byte,                // YR
     program_counter: Word,      // PC
     stack_ptr: Byte,            // SP
+
+    memory: Memory,
 }
 
 impl CPU {
@@ -22,12 +27,14 @@ impl CPU {
             x_reg: 0,
             y_reg: 0,
             status_reg: StatusRegister::new(),
+
+            memory: Memory::new(None),
         }
     }
 
     pub fn reset(&mut self) {
-        // PC is read from the address provided in 16-bit system RES vector at $FFFC
-        self.program_counter = 0xFFFC;
+        // TODO: implement specific memory addresses enum?
+        self.program_counter = self.memory.read(0xFFFC).unwrap().into(); // u8(Byte) -> u16(Word)
 
         // Stack 8 bit range 0x0100 - 0x01FF
         self.stack_ptr = 0x0000;
