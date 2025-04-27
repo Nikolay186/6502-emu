@@ -23,3 +23,17 @@ impl From<u8> for StatusRegisterBitFlag {
         }
     }
 }
+
+impl From<StatusRegisterBitFlag> for u8 {
+    fn from(flag: StatusRegisterBitFlag) -> Self {
+        match flag {
+            StatusRegisterBitFlag::C => 0,
+            StatusRegisterBitFlag::Z => 1,
+            StatusRegisterBitFlag::I => 2,
+            StatusRegisterBitFlag::D => 3,
+            StatusRegisterBitFlag::B => 4,
+            StatusRegisterBitFlag::V => 6,
+            StatusRegisterBitFlag::N => 7,
+        }
+    }
+}
