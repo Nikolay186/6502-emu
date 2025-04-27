@@ -1,3 +1,5 @@
+use crate::shared::types::{Byte, Word};
+
 use super::memory_errors::MemoryError;
 
 const MEMORY_SIZE: usize = 1024 * 64;
@@ -7,13 +9,13 @@ const ROM_ADDRESS_RANGE_END: usize = 0xFFFF;
 
 pub struct Memory {
     // 6502 has 16 bit address bus, which gives it 64K(65536B) address space
-    data: [u8; MEMORY_SIZE],
+    data: [Byte; MEMORY_SIZE],
 }
 
 impl Memory {
     pub fn new(path_to_rom: Option<&str>) -> Self {
         let memory = Memory {
-            data: [0; MEMORY_SIZE],
+            data: [0x0000; MEMORY_SIZE],
         };
 
         // TODO: optionally load rom file on initialization, will decide loading flow later
@@ -30,7 +32,7 @@ impl Memory {
         todo!()
     }
 
-    pub fn read(&self, address: u16) -> Result<u8, MemoryError> {
+    pub fn read(&self, address: Word) -> Result<Byte, MemoryError> {
         if (address as usize) >= MEMORY_SIZE {
             return Err(MemoryError::AddressOutOfBounds(address));
         }
@@ -38,7 +40,7 @@ impl Memory {
         Ok(self.data[address as usize])
     }
 
-    pub fn write(&mut self, address: u16, value: u8) -> Result<(), MemoryError> {
+    pub fn write(&mut self, address: Word, value: Byte) -> Result<(), MemoryError> {
         if (address as usize) >= MEMORY_SIZE {
             return Err(MemoryError::AddressOutOfBounds(address));
         }
