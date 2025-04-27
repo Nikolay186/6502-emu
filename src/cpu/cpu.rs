@@ -1,6 +1,9 @@
 use crate::{
     memory::memory::Memory,
-    shared_types::{Byte, Word},
+    shared::{
+        traits::ToWord,
+        types::{Byte, Word},
+    },
 };
 
 use super::status_register::status_register::StatusRegister;
@@ -21,11 +24,11 @@ pub struct CPU {
 impl CPU {
     pub fn new() -> Self {
         CPU {
-            program_counter: 0,
-            stack_ptr: 0,
-            acc: 0,
-            x_reg: 0,
-            y_reg: 0,
+            program_counter: 0x0000,
+            stack_ptr: 0x0000,
+            acc: 0x0000,
+            x_reg: 0x0000,
+            y_reg: 0x0000,
             status_reg: StatusRegister::new(),
 
             memory: Memory::new(None),
@@ -34,15 +37,15 @@ impl CPU {
 
     pub fn reset(&mut self) {
         // TODO: implement specific memory addresses enum?
-        self.program_counter = self.memory.read(0xFFFC).unwrap().into(); // u8(Byte) -> u16(Word)
+        self.program_counter = self.memory.read(0xFFFC).unwrap().to_word();
 
         // Stack 8 bit range 0x0100 - 0x01FF
         self.stack_ptr = 0x0000;
 
         self.status_reg.clear();
 
-        self.acc = 0b00000000;
-        self.x_reg = 0b00000000;
-        self.y_reg = 0b00000000;
+        self.acc = 0x0000;
+        self.x_reg = 0x0000;
+        self.y_reg = 0x0000;
     }
 }
