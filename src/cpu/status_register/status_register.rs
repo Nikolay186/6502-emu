@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 use crate::shared::traits::ToByte;
 use crate::shared::types::Byte;
 
@@ -20,7 +22,7 @@ pub(in crate::cpu) struct StatusRegister {
 impl StatusRegister {
     // init new empty status register
     pub fn new() -> Self {
-        Self { _data: 0b00000000 }
+        Self { _data: 0b00100000 }
     }
 
     pub fn set_val(&mut self, bit: StatusRegisterBitFlag, value: bool) {
@@ -39,6 +41,12 @@ impl StatusRegister {
 
     // set all status bits to zero
     pub fn clear(&mut self) {
-        self._data = 0b00000000;
+        self._data = 0b00100000;
+    }
+}
+
+impl Display for StatusRegister {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        writeln!(f, "{:08b}", self._data)
     }
 }

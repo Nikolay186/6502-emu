@@ -1,2 +1,3 @@
 pub const BIT_SET: u8 = 0b00000001;
 pub const BIT_CLEAR: u8 = 0b00000000;
+pub const NTSC_NES_CPU_DEFAULT_FREQUENCY_HZ: u32 = 1_789_773;

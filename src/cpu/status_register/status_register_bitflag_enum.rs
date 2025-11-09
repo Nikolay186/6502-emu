@@ -4,7 +4,7 @@ pub enum StatusRegisterBitFlag {
     I,
     D,
     B,
-    // 5 bit is ignored
+    // 5 bit is ignored, always set as 1
     V = 6,
     N,
 }
